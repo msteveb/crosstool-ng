@@ -1,0 +1,11 @@
+diff -u uClibc/libc/sysdeps/linux/microblaze/bits/mman.h~ libc/sysdeps/linux/microblaze/bits/mman.h
+--- uClibc/libc/sysdeps/linux/microblaze/bits/mman.h~	2020-01-27 16:46:22.780374037 +1000
++++ uClibc/libc/sysdeps/linux/microblaze/bits/mman.h	2020-01-27 16:46:28.664374217 +1000
+@@ -33,6 +33,7 @@
+ # define MAP_NONBLOCK       0x10000     /* Do not block on IO.  */
+ # define MAP_STACK          0x20000     /* Allocation is for a stack.  */
+ # define MAP_HUGETLB        0x40000     /* Create huge page mapping.  */
++# define MAP_UNINITIALIZED 0x4000000    /* For anonymous mmap, memory could -   					   be uninitialized. */
+ #endif
+ 
+ /* Include generic Linux declarations.  */

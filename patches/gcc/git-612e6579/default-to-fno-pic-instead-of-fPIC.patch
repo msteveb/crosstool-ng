@@ -1,0 +1,62 @@
+From f000b64fa6d4a0ec05b2e4e0d66ab366c1e7139e Mon Sep 17 00:00:00 2001
+From: Steve Bennett <steveb@workware.net.au>
+Date: Mon, 3 Feb 2020 10:00:48 +1000
+Subject: [PATCH] default to -fno-pic instead of -fPIC
+
+---
+ config/picflag.m4 | 4 ++--
+ gcc/configure     | 4 ++--
+ libgcc/configure  | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/config/picflag.m4 b/config/picflag.m4
+index 8b106f9af88..75bc6b8eae5 100644
+--- a/config/picflag.m4
++++ b/config/picflag.m4
+@@ -65,9 +65,9 @@ case "${$2}" in
+       sh64-*-netbsd* | sh64l*-*-netbsd*)
+ 	$1=-fpic
+ 	;;
+-    # Default to -fPIC unless specified otherwise.
++    # Default to -fno-pic unless specified otherwise.
+     *)
+-	$1=-fPIC
++	$1=-fno-pic
+ 	;;
+ esac
+ 
+diff --git a/gcc/configure b/gcc/configure
+index 6121e163259..ae14750dd8f 100755
+--- a/gcc/configure
++++ b/gcc/configure
+@@ -5095,9 +5095,9 @@ case "${target}" in
+       sh64-*-netbsd* | sh64l*-*-netbsd*)
+ 	PICFLAG_FOR_TARGET=-fpic
+ 	;;
+-    # Default to -fPIC unless specified otherwise.
++    # Default to -fno-pic unless specified otherwise.
+     *)
+-	PICFLAG_FOR_TARGET=-fPIC
++	PICFLAG_FOR_TARGET=-fno-pic
+ 	;;
+ esac
+ 
+diff --git a/libgcc/configure b/libgcc/configure
+index b2f3f870844..d4bca193098 100644
+--- a/libgcc/configure
++++ b/libgcc/configure
+@@ -2371,9 +2371,9 @@ case "${host}" in
+       sh64-*-netbsd* | sh64l*-*-netbsd*)
+ 	PICFLAG=-fpic
+ 	;;
+-    # Default to -fPIC unless specified otherwise.
++    # Default to -fno-pic unless specified otherwise.
+     *)
+-	PICFLAG=-fPIC
++	PICFLAG=-fno-pic
+ 	;;
+ esac
+ 
+-- 
+2.17.1
+

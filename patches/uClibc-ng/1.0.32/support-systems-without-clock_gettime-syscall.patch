@@ -1,0 +1,48 @@
+From a1be23e48446410b78894ffab08dbc8a2acb01d4 Mon Sep 17 00:00:00 2001
+From: Steve Bennett <steveb@workware.net.au>
+Date: Wed, 25 Mar 2020 13:48:40 +1000
+Subject: [PATCH] support systems without clock_gettime,nanosleep syscalls
+
+---
+ librt/clock_gettime.c   | 2 ++
+ librt/clock_nanosleep.c | 3 +++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/librt/clock_gettime.c b/librt/clock_gettime.c
+index e65d39d44..93576415d 100644
+--- a/librt/clock_gettime.c
++++ b/librt/clock_gettime.c
+@@ -22,6 +22,7 @@
+ #include <sys/time.h>
+ #include "kernel-posix-cpu-timers.h"
+ 
++#ifdef __NR_clock_gettime
+ 
+ #define SYSCALL_GETTIME \
+   retval = INLINE_SYSCALL (clock_gettime, 2, clock_id, tp); \
+@@ -85,3 +86,4 @@ clock_gettime (clockid_t clock_id, struct timespec *tp)
+ 
+   return retval;
+ }
++#endif
+diff --git a/librt/clock_nanosleep.c b/librt/clock_nanosleep.c
+index 4cf1e06b4..abd1f5d56 100644
+--- a/librt/clock_nanosleep.c
++++ b/librt/clock_nanosleep.c
+@@ -21,6 +21,7 @@
+ 
+ #include "kernel-posix-cpu-timers.h"
+ 
++#ifdef __NR_clock_nanosleep
+ 
+ /* We can simply use the syscall.  The CPU clocks are not supported
+    with this function.  */
+@@ -51,3 +52,5 @@ clock_nanosleep (clockid_t clock_id, int flags, const struct timespec *req,
+   return (INTERNAL_SYSCALL_ERROR_P (r, err)
+ 	  ? INTERNAL_SYSCALL_ERRNO (r, err) : 0);
+ }
++
++#endif
+-- 
+2.17.1
+
