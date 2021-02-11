@@ -1,0 +1,112 @@
+From f2b8818c1dcb334e86493bdd8a16551dec18bb61 Mon Sep 17 00:00:00 2001
+From: Steve Bennett <steveb@workware.net.au>
+Date: Wed, 25 Mar 2020 07:55:57 +1000
+Subject: [PATCH] microblaze: Use Linux 2.4 kernel stat structures
+
+To provide compatiblity with old 2.4 kernels
+
+Signed-off-by: Steve Bennett <steveb@workware.net.au>
+---
+ .../linux/microblaze/bits/kernel_stat.h       | 83 ++++++++++---------
+ 1 file changed, 46 insertions(+), 37 deletions(-)
+
+diff --git a/libc/sysdeps/linux/microblaze/bits/kernel_stat.h b/libc/sysdeps/linux/microblaze/bits/kernel_stat.h
+index c2695098d..56baeb3e0 100644
+--- a/libc/sysdeps/linux/microblaze/bits/kernel_stat.h
++++ b/libc/sysdeps/linux/microblaze/bits/kernel_stat.h
+@@ -3,46 +3,55 @@
+ #ifndef _BITS_STAT_STRUCT_H
+ #define _BITS_STAT_STRUCT_H
+ 
+-struct kernel_stat
++/* Steve Bennett <steveb@workware.net.au>
++ *
++ * This is taken directly from the Linux 2.4 kernel source
++ * with types replaced with base types (see asm-microblaze/posix_types.h)
++ */
++struct timespec24
+ {
+-	unsigned long	st_dev;		/* Device.  */
+-	unsigned long	st_ino;		/* File serial number.  */
+-	unsigned int	st_mode;	/* File mode.  */
+-	unsigned int	st_nlink;	/* Link count.  */
+-	unsigned int	st_uid;		/* User ID of the file's owner.  */
+-	unsigned int	st_gid;		/* Group ID of the file's group. */
+-	unsigned long	st_rdev;	/* Device number, if device.  */
+-	unsigned long	__pad1;
+-	long		st_size;	/* Size of file, in bytes.  */
+-	int		st_blksize;	/* Optimal block size for I/O.  */
+-	int		__pad2;
+-	long		st_blocks;	/* Number 512-byte blocks allocated. */
+-	struct timespec	st_atim;
+-	struct timespec	st_mtim;
+-	struct timespec	st_ctim;
+-	unsigned int	__unused4;
+-	unsigned int	__unused5;
++	unsigned long tv_sec;		/* Seconds.  */
++	unsigned long tv_nsec;
+ };
+ 
+-struct kernel_stat64
+-{
+-	unsigned long long st_dev;	/* Device.  */
+-	unsigned long long st_ino;	/* File serial number.  */
+-	unsigned int	st_mode;	/* File mode.  */
+-	unsigned int	st_nlink;	/* Link count.  */
+-	unsigned int	st_uid;		/* User ID of the file's owner.  */
+-	unsigned int	st_gid;		/* Group ID of the file's group. */
+-	unsigned long long st_rdev;	/* Device number, if device.  */
+-	unsigned long long __pad1;
+-	long long	st_size;	/* Size of file, in bytes.  */
+-	int		st_blksize;	/* Optimal block size for I/O.  */
+-	int		__pad2;
+-	long long	st_blocks;	/* Number 512-byte blocks allocated. */
+-	struct timespec	st_atim;
+-	struct timespec	st_mtim;
+-	struct timespec	st_ctim;
+-	unsigned int	__unused4;
+-	unsigned int	__unused5;
++struct kernel_stat {
++	unsigned int	st_dev;
++	unsigned long	st_ino;
++	unsigned int	st_mode;
++	unsigned int st_nlink;
++	unsigned int	st_uid;
++	unsigned int	st_gid;
++	unsigned int	st_rdev;
++	long	st_size;
++	unsigned long	st_blksize;
++	unsigned long	st_blocks;
++	struct timespec24 st_atim;
++	struct timespec24	st_mtim;
++	struct timespec24	st_ctim;
++	unsigned long	__unused4;
++	unsigned long	__unused5;
++};
++
++struct kernel_stat64 {
++	unsigned int	st_dev;
++	unsigned long	__unused0;
++	unsigned long	__unused1;
++	unsigned long long st_ino;
++	unsigned int	st_mode;
++	unsigned int st_nlink;
++	unsigned int	st_uid;
++	unsigned int	st_gid;
++	unsigned int	st_rdev;
++	unsigned long	__unused2;
++	unsigned long	__unused3;
++	long long	st_size;
++	unsigned long	st_blksize;
++	unsigned long	st_blocks; /* No. of 512-byte blocks allocated */
++	unsigned long	__unused4; /* future possible st_blocks high bits */
++	struct timespec24	st_atim;
++	struct timespec24	st_mtim;
++	struct timespec24	st_ctim;
++	unsigned long	__unused8;
+ };
+ 
+ #endif	/*  _BITS_STAT_STRUCT_H */
+-- 
+2.21.1 (Apple Git-122.3)
+

@@ -1,0 +1,431 @@
+From 4d0bc1d40dc820550a1f21d667c963289f4572a6 Mon Sep 17 00:00:00 2001
+From: Steve Bennett <steveb@workware.net.au>
+Date: Fri, 20 Mar 2020 13:29:01 +1000
+Subject: [PATCH] microblaze: remove syscalls unavailable on Linux 2.4
+
+This allows us to build a libc that won't invoke missing syscalls
+---
+ arch/microblaze/kernel/syscalls/syscall.tbl | 401 ++++++++++----------
+ 1 file changed, 201 insertions(+), 200 deletions(-)
+
+diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
+index 09b0cd7dab0a..68aa926aae9c 100644
+--- a/arch/microblaze/kernel/syscalls/syscall.tbl
++++ b/arch/microblaze/kernel/syscalls/syscall.tbl
+@@ -232,212 +232,213 @@
+ # 222 is reserved for TUX
+ # 223 is unused
+ 224	common	gettid				sys_gettid
+-225	common	readahead			sys_readahead
+-226	common	setxattr			sys_setxattr
+-227	common	lsetxattr			sys_lsetxattr
+-228	common	fsetxattr			sys_fsetxattr
+-229	common	getxattr			sys_getxattr
+-230	common	lgetxattr			sys_lgetxattr
+-231	common	fgetxattr			sys_fgetxattr
+-232	common	listxattr			sys_listxattr
+-233	common	llistxattr			sys_llistxattr
+-234	common	flistxattr			sys_flistxattr
+-235	common	removexattr			sys_removexattr
+-236	common	lremovexattr			sys_lremovexattr
+-237	common	fremovexattr			sys_fremovexattr
+-238	common	tkill				sys_tkill
+-239	common	sendfile64			sys_sendfile64
+-240	common	futex				sys_futex_time32
+-241	common	sched_setaffinity		sys_sched_setaffinity
+-242	common	sched_getaffinity		sys_sched_getaffinity
+-243	common	set_thread_area			sys_ni_syscall
+-244	common	get_thread_area			sys_ni_syscall
+-245	common	io_setup			sys_io_setup
+-246	common	io_destroy			sys_io_destroy
+-247	common	io_getevents			sys_io_getevents_time32
+-248	common	io_submit			sys_io_submit
+-249	common	io_cancel			sys_io_cancel
+-250	common	fadvise64			sys_fadvise64
++# below this point - removed to match microblaze Linux 2.4
++# 225	common	readahead			sys_readahead
++# 226	common	setxattr			sys_setxattr
++# 227	common	lsetxattr			sys_lsetxattr
++# 228	common	fsetxattr			sys_fsetxattr
++# 229	common	getxattr			sys_getxattr
++# 230	common	lgetxattr			sys_lgetxattr
++# 231	common	fgetxattr			sys_fgetxattr
++# 232	common	listxattr			sys_listxattr
++# 233	common	llistxattr			sys_llistxattr
++# 234	common	flistxattr			sys_flistxattr
++# 235	common	removexattr			sys_removexattr
++# 236	common	lremovexattr			sys_lremovexattr
++# 237	common	fremovexattr			sys_fremovexattr
++# 238	common	tkill				sys_tkill
++# 239	common	sendfile64			sys_sendfile64
++# 240	common	futex				sys_futex_time32
++# 241	common	sched_setaffinity		sys_sched_setaffinity
++# 242	common	sched_getaffinity		sys_sched_getaffinity
++# 243	common	set_thread_area			sys_ni_syscall
++# 244	common	get_thread_area			sys_ni_syscall
++# 245	common	io_setup			sys_io_setup
++# 246	common	io_destroy			sys_io_destroy
++# 247	common	io_getevents			sys_io_getevents_time32
++# 248	common	io_submit			sys_io_submit
++# 249	common	io_cancel			sys_io_cancel
++# 250	common	fadvise64			sys_fadvise64
+ # 251 is available for reuse (was briefly sys_set_zone_reclaim)
+-252	common	exit_group			sys_exit_group
+-253	common	lookup_dcookie			sys_lookup_dcookie
+-254	common	epoll_create			sys_epoll_create
+-255	common	epoll_ctl			sys_epoll_ctl
+-256	common	epoll_wait			sys_epoll_wait
+-257	common	remap_file_pages		sys_remap_file_pages
+-258	common	set_tid_address			sys_set_tid_address
+-259	common	timer_create			sys_timer_create
+-260	common	timer_settime			sys_timer_settime32
+-261	common	timer_gettime			sys_timer_gettime32
+-262	common	timer_getoverrun		sys_timer_getoverrun
+-263	common	timer_delete			sys_timer_delete
+-264	common	clock_settime			sys_clock_settime32
+-265	common	clock_gettime			sys_clock_gettime32
+-266	common	clock_getres			sys_clock_getres_time32
+-267	common	clock_nanosleep			sys_clock_nanosleep_time32
+-268	common	statfs64			sys_statfs64
+-269	common	fstatfs64			sys_fstatfs64
+-270	common	tgkill				sys_tgkill
+-271	common	utimes				sys_utimes_time32
+-272	common	fadvise64_64			sys_fadvise64_64
+-273	common	vserver				sys_ni_syscall
+-274	common	mbind				sys_mbind
+-275	common	get_mempolicy			sys_get_mempolicy
+-276	common	set_mempolicy			sys_set_mempolicy
++# 252	common	exit_group			sys_exit_group
++# 253	common	lookup_dcookie			sys_lookup_dcookie
++# 254	common	epoll_create			sys_epoll_create
++# 255	common	epoll_ctl			sys_epoll_ctl
++# 256	common	epoll_wait			sys_epoll_wait
++# 257	common	remap_file_pages		sys_remap_file_pages
++# 258	common	set_tid_address			sys_set_tid_address
++# 259	common	timer_create			sys_timer_create
++# 260	common	timer_settime			sys_timer_settime32
++# 261	common	timer_gettime			sys_timer_gettime32
++# 262	common	timer_getoverrun		sys_timer_getoverrun
++# 263	common	timer_delete			sys_timer_delete
++# 264	common	clock_settime			sys_clock_settime32
++# 265	common	clock_gettime			sys_clock_gettime32
++# 266	common	clock_getres			sys_clock_getres_time32
++# 267	common	clock_nanosleep			sys_clock_nanosleep_time32
++# 268	common	statfs64			sys_statfs64
++# 269	common	fstatfs64			sys_fstatfs64
++# 270	common	tgkill				sys_tgkill
++# 271	common	utimes				sys_utimes_time32
++# 272	common	fadvise64_64			sys_fadvise64_64
++# 273	common	vserver				sys_ni_syscall
++# 274	common	mbind				sys_mbind
++# 275	common	get_mempolicy			sys_get_mempolicy
++# 276	common	set_mempolicy			sys_set_mempolicy
+ 277	common	mq_open				sys_mq_open
+ 278	common	mq_unlink			sys_mq_unlink
+ 279	common	mq_timedsend			sys_mq_timedsend_time32
+ 280	common	mq_timedreceive			sys_mq_timedreceive_time32
+ 281	common	mq_notify			sys_mq_notify
+ 282	common	mq_getsetattr			sys_mq_getsetattr
+-283	common	kexec_load			sys_kexec_load
+-284	common	waitid				sys_waitid
++# 283	common	kexec_load			sys_kexec_load
++# 284	common	waitid				sys_waitid
+ # 285 was setaltroot
+-286	common	add_key				sys_add_key
+-287	common	request_key			sys_request_key
+-288	common	keyctl				sys_keyctl
+-289	common	ioprio_set			sys_ioprio_set
+-290	common	ioprio_get			sys_ioprio_get
+-291	common	inotify_init			sys_inotify_init
+-292	common	inotify_add_watch		sys_inotify_add_watch
+-293	common	inotify_rm_watch		sys_inotify_rm_watch
+-294	common	migrate_pages			sys_ni_syscall
+-295	common	openat				sys_openat
+-296	common	mkdirat				sys_mkdirat
+-297	common	mknodat				sys_mknodat
+-298	common	fchownat			sys_fchownat
+-299	common	futimesat			sys_futimesat_time32
+-300	common	fstatat64			sys_fstatat64
+-301	common	unlinkat			sys_unlinkat
+-302	common	renameat			sys_renameat
+-303	common	linkat				sys_linkat
+-304	common	symlinkat			sys_symlinkat
+-305	common	readlinkat			sys_readlinkat
+-306	common	fchmodat			sys_fchmodat
+-307	common	faccessat			sys_faccessat
+-308	common	pselect6			sys_pselect6_time32
+-309	common	ppoll				sys_ppoll_time32
+-310	common	unshare				sys_unshare
+-311	common	set_robust_list			sys_set_robust_list
+-312	common	get_robust_list			sys_get_robust_list
+-313	common	splice				sys_splice
+-314	common	sync_file_range			sys_sync_file_range
+-315	common	tee				sys_tee
+-316	common	vmsplice			sys_vmsplice
+-317	common	move_pages			sys_move_pages
+-318	common	getcpu				sys_getcpu
+-319	common	epoll_pwait			sys_epoll_pwait
+-320	common	utimensat			sys_utimensat_time32
+-321	common	signalfd			sys_signalfd
+-322	common	timerfd_create			sys_timerfd_create
+-323	common	eventfd				sys_eventfd
+-324	common	fallocate			sys_fallocate
+-325	common	semtimedop			sys_semtimedop_time32
+-326	common	timerfd_settime			sys_timerfd_settime32
+-327	common	timerfd_gettime			sys_timerfd_gettime32
+-328	common	semctl				sys_old_semctl
+-329	common	semget				sys_semget
+-330	common	semop				sys_semop
+-331	common	msgctl				sys_old_msgctl
+-332	common	msgget				sys_msgget
+-333	common	msgrcv				sys_msgrcv
+-334	common	msgsnd				sys_msgsnd
+-335	common	shmat				sys_shmat
+-336	common	shmctl				sys_old_shmctl
+-337	common	shmdt				sys_shmdt
+-338	common	shmget				sys_shmget
+-339	common	signalfd4			sys_signalfd4
+-340	common	eventfd2			sys_eventfd2
+-341	common	epoll_create1			sys_epoll_create1
+-342	common	dup3				sys_dup3
+-343	common	pipe2				sys_pipe2
+-344	common	inotify_init1			sys_inotify_init1
+-345	common	socket				sys_socket
+-346	common	socketpair			sys_socketpair
+-347	common	bind				sys_bind
+-348	common	listen				sys_listen
+-349	common	accept				sys_accept
+-350	common	connect				sys_connect
+-351	common	getsockname			sys_getsockname
+-352	common	getpeername			sys_getpeername
+-353	common	sendto				sys_sendto
+-354	common	send				sys_send
+-355	common	recvfrom			sys_recvfrom
+-356	common	recv				sys_recv
+-357	common	setsockopt			sys_setsockopt
+-358	common	getsockopt			sys_getsockopt
+-359	common	shutdown			sys_shutdown
+-360	common	sendmsg				sys_sendmsg
+-361	common	recvmsg				sys_recvmsg
+-362	common	accept4				sys_accept4
+-363	common	preadv				sys_preadv
+-364	common	pwritev				sys_pwritev
+-365	common	rt_tgsigqueueinfo		sys_rt_tgsigqueueinfo
+-366	common	perf_event_open			sys_perf_event_open
+-367	common	recvmmsg			sys_recvmmsg_time32
+-368	common	fanotify_init			sys_fanotify_init
+-369	common	fanotify_mark			sys_fanotify_mark
+-370	common	prlimit64			sys_prlimit64
+-371	common	name_to_handle_at		sys_name_to_handle_at
+-372	common	open_by_handle_at		sys_open_by_handle_at
+-373	common	clock_adjtime			sys_clock_adjtime32
+-374	common	syncfs				sys_syncfs
+-375	common	setns				sys_setns
+-376	common	sendmmsg			sys_sendmmsg
+-377	common	process_vm_readv		sys_process_vm_readv
+-378	common	process_vm_writev		sys_process_vm_writev
+-379	common	kcmp				sys_kcmp
+-380	common	finit_module			sys_finit_module
+-381	common	sched_setattr			sys_sched_setattr
+-382	common	sched_getattr			sys_sched_getattr
+-383	common	renameat2			sys_renameat2
+-384	common	seccomp				sys_seccomp
+-385	common	getrandom			sys_getrandom
+-386	common	memfd_create			sys_memfd_create
+-387	common	bpf				sys_bpf
+-388	common	execveat			sys_execveat
+-389	common	userfaultfd			sys_userfaultfd
+-390	common	membarrier			sys_membarrier
+-391	common	mlock2				sys_mlock2
+-392	common	copy_file_range			sys_copy_file_range
+-393	common	preadv2				sys_preadv2
+-394	common	pwritev2			sys_pwritev2
+-395	common	pkey_mprotect			sys_pkey_mprotect
+-396	common	pkey_alloc			sys_pkey_alloc
+-397	common	pkey_free			sys_pkey_free
+-398	common	statx				sys_statx
+-399	common	io_pgetevents			sys_io_pgetevents_time32
+-400	common	rseq				sys_rseq
++# 286	common	add_key				sys_add_key
++# 287	common	request_key			sys_request_key
++# 288	common	keyctl				sys_keyctl
++# 289	common	ioprio_set			sys_ioprio_set
++# 290	common	ioprio_get			sys_ioprio_get
++# 291	common	inotify_init			sys_inotify_init
++# 292	common	inotify_add_watch		sys_inotify_add_watch
++# 293	common	inotify_rm_watch		sys_inotify_rm_watch
++# 294	common	migrate_pages			sys_ni_syscall
++# 295	common	openat				sys_openat
++# 296	common	mkdirat				sys_mkdirat
++# 297	common	mknodat				sys_mknodat
++# 298	common	fchownat			sys_fchownat
++# 299	common	futimesat			sys_futimesat_time32
++# 300	common	fstatat64			sys_fstatat64
++# 301	common	unlinkat			sys_unlinkat
++# 302	common	renameat			sys_renameat
++# 303	common	linkat				sys_linkat
++# 304	common	symlinkat			sys_symlinkat
++# 305	common	readlinkat			sys_readlinkat
++# 306	common	fchmodat			sys_fchmodat
++# 307	common	faccessat			sys_faccessat
++# 308	common	pselect6			sys_pselect6_time32
++# 309	common	ppoll				sys_ppoll_time32
++# 310	common	unshare				sys_unshare
++# 311	common	set_robust_list			sys_set_robust_list
++# 312	common	get_robust_list			sys_get_robust_list
++# 313	common	splice				sys_splice
++# 314	common	sync_file_range			sys_sync_file_range
++# 315	common	tee				sys_tee
++# 316	common	vmsplice			sys_vmsplice
++# 317	common	move_pages			sys_move_pages
++# 318	common	getcpu				sys_getcpu
++# 319	common	epoll_pwait			sys_epoll_pwait
++# 320	common	utimensat			sys_utimensat_time32
++# 321	common	signalfd			sys_signalfd
++# 322	common	timerfd_create			sys_timerfd_create
++# 323	common	eventfd				sys_eventfd
++# 324	common	fallocate			sys_fallocate
++# 325	common	semtimedop			sys_semtimedop_time32
++# 326	common	timerfd_settime			sys_timerfd_settime32
++# 327	common	timerfd_gettime			sys_timerfd_gettime32
++# 328	common	semctl				sys_old_semctl
++# 329	common	semget				sys_semget
++# 330	common	semop				sys_semop
++# 331	common	msgctl				sys_old_msgctl
++# 332	common	msgget				sys_msgget
++# 333	common	msgrcv				sys_msgrcv
++# 334	common	msgsnd				sys_msgsnd
++# 335	common	shmat				sys_shmat
++# 336	common	shmctl				sys_old_shmctl
++# 337	common	shmdt				sys_shmdt
++# 338	common	shmget				sys_shmget
++# 339	common	signalfd4			sys_signalfd4
++# 340	common	eventfd2			sys_eventfd2
++# 341	common	epoll_create1			sys_epoll_create1
++# 342	common	dup3				sys_dup3
++# 343	common	pipe2				sys_pipe2
++# 344	common	inotify_init1			sys_inotify_init1
++# 345	common	socket				sys_socket
++# 346	common	socketpair			sys_socketpair
++# 347	common	bind				sys_bind
++# 348	common	listen				sys_listen
++# 349	common	accept				sys_accept
++# 350	common	connect				sys_connect
++# 351	common	getsockname			sys_getsockname
++# 352	common	getpeername			sys_getpeername
++# 353	common	sendto				sys_sendto
++# 354	common	send				sys_send
++# 355	common	recvfrom			sys_recvfrom
++# 356	common	recv				sys_recv
++# 357	common	setsockopt			sys_setsockopt
++# 358	common	getsockopt			sys_getsockopt
++# 359	common	shutdown			sys_shutdown
++# 360	common	sendmsg				sys_sendmsg
++# 361	common	recvmsg				sys_recvmsg
++# 362	common	accept4				sys_accept4
++# 363	common	preadv				sys_preadv
++# 364	common	pwritev				sys_pwritev
++# 365	common	rt_tgsigqueueinfo		sys_rt_tgsigqueueinfo
++# 366	common	perf_event_open			sys_perf_event_open
++# 367	common	recvmmsg			sys_recvmmsg_time32
++# 368	common	fanotify_init			sys_fanotify_init
++# 369	common	fanotify_mark			sys_fanotify_mark
++# 370	common	prlimit64			sys_prlimit64
++# 371	common	name_to_handle_at		sys_name_to_handle_at
++# 372	common	open_by_handle_at		sys_open_by_handle_at
++# 373	common	clock_adjtime			sys_clock_adjtime32
++# 374	common	syncfs				sys_syncfs
++# 375	common	setns				sys_setns
++# 376	common	sendmmsg			sys_sendmmsg
++# 377	common	process_vm_readv		sys_process_vm_readv
++# 378	common	process_vm_writev		sys_process_vm_writev
++# 379	common	kcmp				sys_kcmp
++# 380	common	finit_module			sys_finit_module
++# 381	common	sched_setattr			sys_sched_setattr
++# 382	common	sched_getattr			sys_sched_getattr
++# 383	common	renameat2			sys_renameat2
++# 384	common	seccomp				sys_seccomp
++# 385	common	getrandom			sys_getrandom
++# 386	common	memfd_create			sys_memfd_create
++# 387	common	bpf				sys_bpf
++# 388	common	execveat			sys_execveat
++# 389	common	userfaultfd			sys_userfaultfd
++# 390	common	membarrier			sys_membarrier
++# 391	common	mlock2				sys_mlock2
++# 392	common	copy_file_range			sys_copy_file_range
++# 393	common	preadv2				sys_preadv2
++# 394	common	pwritev2			sys_pwritev2
++# 395	common	pkey_mprotect			sys_pkey_mprotect
++# 396	common	pkey_alloc			sys_pkey_alloc
++# 397	common	pkey_free			sys_pkey_free
++# 398	common	statx				sys_statx
++# 399	common	io_pgetevents			sys_io_pgetevents_time32
++# 400	common	rseq				sys_rseq
+ # 401 and 402 are unused
+-403	common	clock_gettime64			sys_clock_gettime
+-404	common	clock_settime64			sys_clock_settime
+-405	common	clock_adjtime64			sys_clock_adjtime
+-406	common	clock_getres_time64		sys_clock_getres
+-407	common	clock_nanosleep_time64		sys_clock_nanosleep
+-408	common	timer_gettime64			sys_timer_gettime
+-409	common	timer_settime64			sys_timer_settime
+-410	common	timerfd_gettime64		sys_timerfd_gettime
+-411	common	timerfd_settime64		sys_timerfd_settime
+-412	common	utimensat_time64		sys_utimensat
+-413	common	pselect6_time64			sys_pselect6
+-414	common	ppoll_time64			sys_ppoll
+-416	common	io_pgetevents_time64		sys_io_pgetevents
+-417	common	recvmmsg_time64			sys_recvmmsg
+-418	common	mq_timedsend_time64		sys_mq_timedsend
+-419	common	mq_timedreceive_time64		sys_mq_timedreceive
+-420	common	semtimedop_time64		sys_semtimedop
+-421	common	rt_sigtimedwait_time64		sys_rt_sigtimedwait
+-422	common	futex_time64			sys_futex
+-423	common	sched_rr_get_interval_time64	sys_sched_rr_get_interval
+-424	common	pidfd_send_signal		sys_pidfd_send_signal
+-425	common	io_uring_setup			sys_io_uring_setup
+-426	common	io_uring_enter			sys_io_uring_enter
+-427	common	io_uring_register		sys_io_uring_register
+-428	common	open_tree			sys_open_tree
+-429	common	move_mount			sys_move_mount
+-430	common	fsopen				sys_fsopen
+-431	common	fsconfig			sys_fsconfig
+-432	common	fsmount				sys_fsmount
+-433	common	fspick				sys_fspick
+-434	common	pidfd_open			sys_pidfd_open
+-435	common	clone3				sys_clone3
++# 403	common	clock_gettime64			sys_clock_gettime
++# 404	common	clock_settime64			sys_clock_settime
++# 405	common	clock_adjtime64			sys_clock_adjtime
++# 406	common	clock_getres_time64		sys_clock_getres
++# 407	common	clock_nanosleep_time64		sys_clock_nanosleep
++# 408	common	timer_gettime64			sys_timer_gettime
++# 409	common	timer_settime64			sys_timer_settime
++# 410	common	timerfd_gettime64		sys_timerfd_gettime
++# 411	common	timerfd_settime64		sys_timerfd_settime
++# 412	common	utimensat_time64		sys_utimensat
++# 413	common	pselect6_time64			sys_pselect6
++# 414	common	ppoll_time64			sys_ppoll
++# 416	common	io_pgetevents_time64		sys_io_pgetevents
++# 417	common	recvmmsg_time64			sys_recvmmsg
++# 418	common	mq_timedsend_time64		sys_mq_timedsend
++# 419	common	mq_timedreceive_time64		sys_mq_timedreceive
++# 420	common	semtimedop_time64		sys_semtimedop
++# 421	common	rt_sigtimedwait_time64		sys_rt_sigtimedwait
++# 422	common	futex_time64			sys_futex
++# 423	common	sched_rr_get_interval_time64	sys_sched_rr_get_interval
++# 424	common	pidfd_send_signal		sys_pidfd_send_signal
++# 425	common	io_uring_setup			sys_io_uring_setup
++# 426	common	io_uring_enter			sys_io_uring_enter
++# 427	common	io_uring_register		sys_io_uring_register
++# 428	common	open_tree			sys_open_tree
++# 429	common	move_mount			sys_move_mount
++# 430	common	fsopen				sys_fsopen
++# 431	common	fsconfig			sys_fsconfig
++# 432	common	fsmount				sys_fsmount
++# 433	common	fspick				sys_fspick
++# 434	common	pidfd_open			sys_pidfd_open
++# 435	common	clone3				sys_clone3
+-- 
+2.21.1 (Apple Git-122.3)
+
